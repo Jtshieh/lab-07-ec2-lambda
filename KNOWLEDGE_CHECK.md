@@ -14,7 +14,7 @@ Suppose your instance is running and has a public IP address, but `ssh` cannot c
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
-...
+I opened EC2 → Network & Security → Security Groups, selected `launch-wizard-1` (`sg-075595716a1e1e431`), and opened Inbound rules. SSH uses TCP port 22; the rule must allow the public IP address of the computer making the connection.
 
 ## 2. Lambda: why didn't my function run?
 
@@ -26,7 +26,7 @@ Suppose you uploaded a new book to your bucket, but several minutes later MongoD
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
-...
+I opened Lambda → Functions → `book-analyzer-dev-analyze_new_book` → Function overview and selected the S3 trigger. It should point to `public-rau7ru` and run for object-created events whose keys end in `.txt`.
 
 ## 3. Lambda: where do I find the error?
 
@@ -38,7 +38,7 @@ Suppose the function did start, but MongoDB still has no document for the book. 
 
 **Your answer:** Which path did you take in the console (service → page → tab)?
 
-...
+I opened Lambda → Functions → `book-analyzer-dev-analyze_new_book` → Monitor → View CloudWatch logs, then opened the log stream for the upload. The `pg74.txt: 74383 words` entry identifies the book that the function processed; errors from that invocation appear in the same stream.
 
 ## 4. EC2 or Lambda: a backlog or new uploads?
 
@@ -54,4 +54,4 @@ For comparison, typical times in this lab:
 
 **Your answer:**
 
-...
+For Case A, I would use EC2 to process the existing backlog as a batch and terminate the instance afterward. That avoids generating thousands of new upload events just to start the analysis. For Case B, I would use an S3-triggered Lambda function so each new upload starts its own analysis without a server waiting between uploads.

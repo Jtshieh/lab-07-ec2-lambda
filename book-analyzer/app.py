@@ -16,4 +16,3 @@ logging.getLogger().setLevel(logging.INFO)
 def analyze_new_book(event):
     """Analyze the book identified by the incoming S3 event."""
     return analyze_book(event.bucket, event.key)
-
